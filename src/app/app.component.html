@@ -20,7 +20,7 @@
 </div>
 
 <div class = "list-space" [ngClass] = " {'fade': showAddCard }" cdkDropListGroup>
-  <div cdkDropList class = "list" *ngFor = "let list of listt" [cdkDropListData]="list" (cdkDropListDropped)="drop($event)"> 
+  <div cdkDropList class = "list" *ngFor = "let list of listt" [cdkDropListData]="list.cards" (cdkDropListDropped)="drop(list)"> 
     <h4> {{list.title}} </h4>
      <div class = "example-box" *ngFor = "let card of list.cards" cdkDrag>
        <h4>{{card.title}}</h4>

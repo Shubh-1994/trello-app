@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import BoardData from './../assets/List.json';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 export interface DialogData {
   title: string;
 }
@@ -107,8 +107,18 @@ export class AppComponent implements OnInit {
     });
 
   }
-
+  drop(list) {
+    // if (event.previousContainer === event.container) {
+    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // } else {
+    //   transferArrayItem(event.previousContainer.data,
+    //                     event.container.data,
+    //                     event.previousIndex,
+    //                     event.currentIndex);
+    // }
+    
   }
+}
 
 
 
