@@ -20,27 +20,14 @@
 </div>
 
 <div class = "list-space" [ngClass] = " {'fade': showAddCard }" cdkDropListGroup>
-  <div cdkDropList class = "list" *ngFor = "let list of listt" [cdkDropListData]="list.cards" (cdkDropListDropped)="drop(list)"> 
+  <div cdkDropList class = "list" *ngFor = "let list of listt" [cdkDropListData]="list" (cdkDropListDropped)="drop($event, list)"> 
     <h4> {{list.title}} </h4>
-     <div class = "example-box" *ngFor = "let card of list.cards" cdkDrag>
+     <div class = "example-box" *ngFor = "let card of list.cards" cdkDrag [cdkDragData] = "card">
        <h4>{{card.title}}</h4>
        <label class = "delete" (click) = "onDeleteCard(list, card)">X</label>
        {{card.desc}}
      </div>
      <div class="add" (click) = "onAddCard(list)"><button >+</button></div>
-
-     <!-- <div class="new-card">
-      <label>
-        Card Title: <br>
-        <input id = "cardtitle" type="text" name="title" [(ngModel)]="newCardTitle">
-     </label>
-     <br>
-     <label>
-      Card Description: <br>
-      <textarea id = "carddesc" type="text" name="title" [(ngModel)]="newCardDesc"> </textarea>
-      </label>
-     <button type="submit" (click) = "onAddList()">Add</button>
-     </div> -->
   </div>
 
 </div>

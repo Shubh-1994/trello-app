@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import BoardData from './../assets/List.json';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 export interface DialogData {
@@ -20,14 +20,14 @@ export interface List {
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'sdTrello';
   newListTitle;
   newCardTitle;
   newCardDesc;
   currentList;
   finalList: List[] = [];
-  listt;
+  listt = [];
   showAddList = false;
   showAddCard = false;
 
@@ -37,25 +37,16 @@ export class AppComponent implements OnInit {
     this.showAddCard = false;
     this.showAddList = false;
 
-    // To edit
-    console.log(this.title);
-    this.finalList = BoardData;
-    console.log(this.finalList);
-
     this.onLoad();
   }
 
   onLoad() {
-    if (!localStorage.getItem('list data')) {
-      localStorage.setItem('list data', JSON.stringify(this.finalList));
+    if (!localStorage.getItem('sdtrello')) {
+      localStorage.setItem('sdtrello', JSON.stringify(this.listt));
     }
 
-    this.listt = JSON.parse(localStorage.getItem('list data'));
-    console.log(this.listt);
-
-    this.listt.forEach(element => {
-    console.log(element.title);
-    });
+      this.listt = JSON.parse(localStorage.getItem('sdtrello'));
+      this.save();
   }
 
   onAddList() {
@@ -63,17 +54,14 @@ export class AppComponent implements OnInit {
     const newlist = { title: this.newListTitle , cards: [] };
 
     this.listt.push(newlist);
-    localStorage.setItem('list data', JSON.stringify(this.listt));
+    this.save();
   }
 
   onDeleteCard(list: List, card: Card) {
-    console.log(card);
-    console.log(list);
 
     this.listt.forEach(element => {
       console.log(element);
       if ( element.title === list.title) {
-        console.log('hiiiii');
         element.cards = element.cards.filter(c => c.title !== card.title);
       }
 
@@ -93,30 +81,52 @@ export class AppComponent implements OnInit {
 
   onAddCardDetails() {
 
-    console.log(this.currentList);
-
     this.showAddCard = false;
-    const newEntry = { title: this.newCardTitle, desc: this.newCardDesc, createdOn: new Date().getMilliseconds() };
-    console.log(newEntry);
+    const newEntry = { title: this.newCardTitle, desc: this.newCardDesc, createdOn: Date.now() };
 
     this.listt.forEach(element => {
-      console.log(element);
       if ( element.title === this.currentList.title) {
         element.cards.push(newEntry);
       }
     });
 
+    this.save();
+
   }
-  drop(list) {
-    // if (event.previousContainer === event.container) {
-    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // } else {
-    //   transferArrayItem(event.previousContainer.data,
-    //                     event.container.data,
-    //                     event.previousIndex,
-    //                     event.currentIndex);
-    // }
-    
+
+  drop(event, list) {
+    const fromList = event.item.dropContainer.data;
+    const toList = list;
+    const cardMoved: Card = event.item.data;
+
+    this.onDeleteCard(fromList, cardMoved);
+
+    this.listt.forEach(element => {
+      if (element.title === toList.title) {
+        element.cards.push(cardMoved);
+        this.save();
+        return;
+      }
+    });
+  }
+
+  save() {
+    this.sortList();
+    localStorage.setItem('sdtrello', JSON.stringify(this.listt));
+  }
+
+  sortList() {
+    this.listt.forEach(element => {
+      element.cards.sort(this.compare);
+    });
+  }
+
+  compare(a, b) {
+    return (b.createdOn - a.createdOn);
+  }
+
+  ngOnDestroy() {
+    localStorage.setItem('sdtrello', JSON.stringify(this.listt));
   }
 }
 
