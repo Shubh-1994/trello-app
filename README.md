@@ -28,6 +28,11 @@ on the page should remain intact.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
+**To run the Project**
+run npm install // To install all the modules
+run ng serve // to launch the Project
+Open https://localhost:4020/ to open the project on browser
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
