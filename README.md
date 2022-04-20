@@ -29,6 +29,7 @@ on the page should remain intact.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
 **To run the Project**
+
 run npm install // To install all the modules
 
 run ng serve // to launch the Project
