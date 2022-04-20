@@ -30,7 +30,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 **To run the Project**
 run npm install // To install all the modules
+
 run ng serve // to launch the Project
+
 Open https://localhost:4020/ to open the project on browser
 
 ## Development server
